@@ -1,0 +1,11 @@
+body {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 4%;
+}
+
+game_header {
+  width: 100%;
+  text-align: center;
+  
+}

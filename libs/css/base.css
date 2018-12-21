@@ -1,0 +1,47 @@
+body {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2% 4% 2% 4%;
+}
+
+#game_header {
+  width: 100%;
+  text-align: center;  
+}
+
+#game_player {
+  width: 48%;
+  float:left;
+  text-align:left;
+}
+
+#game_monster {
+  width: 48%;
+  float:right;
+  text-align:right;
+}
+
+#game_message {
+  clear: both;
+  text-align: center;
+}
+
+.fight_button {
+  margin-left:5px;
+  float:right;
+}
+
+.skill_button {
+  margin-left:5px;
+  float:right;
+}
+
+.upgrade_button {
+  margin-left:5px;
+  float:right;
+  display:none;
+}
+
+.icon.player {
+  //display: none;
+}
