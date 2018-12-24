@@ -19,6 +19,11 @@ class Control extends React.Component {
     this.props.update("fight", {"player_choice": player_action});
   }
   
+  skill(skill_name, skill_lv) {
+    console.log(skill_name, skill_lv);
+    this.props.update("skill", {"skill_name": skill_name, "skill_lv": skill_lv});
+  }
+  
   createFight_btn() {
     var btns = [];
     for (var btn in this.state.fight) {
@@ -29,8 +34,13 @@ class Control extends React.Component {
   
   createSkill_btn() {
     var btns = [];
-    for (var btn in this.props.skills) {
-      btns.push(<button key={btn} className="skill_button" disabled={this.props.computing}>{this.props.skills[btn].name} (lv: {this.props.skills[btn].lv})</button>);
+    for (var skill_name in this.props.player.skills) {
+      var disable = false;
+      var skill = this.props.player.skills[skill_name];
+      if (this.props.computing || this.props.player.mana < skill_list[skill_name].cost || skill.lv <= 0 || skill.cd != 0) {
+        disable = true;
+      }
+      btns.push(<button key={skill_name} className="skill_button" disabled={disable} onClick={this.skill.bind(this, skill_name, skill.lv)}>{skill_name} (lv: {skill.lv}, cd: {skill.cd})</button>);
     }
     return btns
   }

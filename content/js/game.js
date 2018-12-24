@@ -45,6 +45,11 @@ class Game extends React.Component {
           setTimeout(()=>{this.fight("monster_hit")}, 1500);
         }
         break;
+      case "skill":
+        var re = skill(this.state.player, data.skill_name, data.skill_lv);
+        this.setState({player_status: "atk", monster_status: "damaged"});
+        setTimeout(()=>{this.skill(re)}, 1000);
+        break;
       default:
     }    
   }
@@ -68,7 +73,7 @@ class Game extends React.Component {
         var dam = (this.state.player.str/10 + parseInt(this.state.player.inte/10)) * multi;
         var new_monster = Object.assign({}, this.state.monster, {hp: this.state.monster.hp - dam});
         this.setState({monster: new_monster, player_status: "normal", monster_status: "normal"});
-        this.setState({message: 1, message_atk: "player", message_crit: multi, message_method: "normal", message_dam: dam});
+        this.setState({message: 1, message_atk: "Player", message_crit: multi, message_method: "normal", message_dam: dam});
         break;
       case "monster_hit":
         var dex = this.state.monster.dex;
@@ -84,18 +89,51 @@ class Game extends React.Component {
         var dam = (this.state.monster.str/10 + parseInt(this.state.monster.inte/10)) * multi;
         var new_player = Object.assign({}, this.state.player, {hp: this.state.player.hp - dam});
         this.setState({player: new_player, player_status: "normal", monster_status: "normal"});
-        this.setState({message: 1, message_atk: "monster", message_crit: multi, message_method: "normal", message_dam: dam});
+        this.setState({message: 1, message_atk: "Monster", message_crit: multi, message_method: "normal", message_dam: dam});
         break;
       default:
         break;
     }
+    var new_skills = Object.assign({}, this.state.player.skills);
+    for (var skill_name in this.state.player.skills) {
+      var new_cd = Math.max(this.state.player.skills[skill_name].cd -1 ,0);
+      new_skills[skill_name].cd = new_cd;
+    }
     var new_mana = Math.min(this.state.player.mana + parseInt(this.state.player.inte/10), this.state.player.maxmana);
-    var new_player = Object.assign({}, this.state.player, {mana: new_mana});
+    var new_player = Object.assign({}, this.state.player, {mana: new_mana, skills: new_skills});
     this.setState({player: new_player});
     this.setState({computing: false});
-
-    console.log(this);
     
+    this.after_fight();
+  }
+  
+  skill(data) {
+    var new_mana = this.state.player.mana - data.cost;
+    var new_cd = skill_list[data.skill_name].base_cd;
+    var new_skills = Object.assign({}, this.state.player.skills);
+    new_skills[data.skill_name].cd = new_cd;
+    var new_player = Object.assign({}, this.state.player, {mana: new_mana, skills: new_skills});
+    
+    var dex = this.state.player.dex;
+    var multi = 1;
+    while (true) {
+      if (Math.random() * 50 < dex) {
+        multi += 0.5;
+        dex -= 50;
+      } else {
+        break;
+      }
+    }    
+    var dam = data.dam * multi;
+    var new_monster = Object.assign({}, this.state.monster, {hp: this.state.monster.hp - dam});
+    
+    this.setState({player: new_player, monster: new_monster, player_status: "normal", monster_status: "normal"});
+    this.setState({message: 1, message_atk: "Player", message_crit: multi, message_method: data.skill_name, message_dam: dam});
+    this.setState({computing: false});
+    this.after_fight();
+  }
+  
+  after_fight() {
     if (this.state.player.hp <= 0) {
       this.setState({player_status: "dead"});
       this.player_pre_dead();
@@ -104,7 +142,6 @@ class Game extends React.Component {
       this.player_win();
     }
   }
-    
 
   
   render() {
@@ -123,7 +160,7 @@ class Game extends React.Component {
             <Message message={this.state.message} message_atk={this.state.message_atk} message_crit={this.state.message_crit} message_dam={this.state.message_dam} message_method={this.state.message_method} update={this.update} />
           </div>
           <div id="game_control">
-            <Control computing={this.state.computing} skills={this.state.player.skills} update={this.update} />
+            <Control player={this.state.player} computing={this.state.computing} skills={this.state.player.skills} update={this.update} />
           </div>
         </div>
     );

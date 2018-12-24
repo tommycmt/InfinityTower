@@ -11,6 +11,17 @@ function fight(player_action) {
     return {"result":result, "monster_choice": choices[monster_choice]};
 }
 
+function skill(player, skill_name, skill_lv) {
+    var type = skill_list[skill_name].type;
+    var cost = skill_list[skill_name].cost;
+    var base_dam = skill_list[skill_name].base_dam;
+    var multi = skill_list[skill_name].multi;
+    
+    var dam = parseInt(Math.pow(1.3, player.skills[skill_name].lv) * parseInt(player[type] / 5))
+    
+    return {"skill_name": skill_name,"dam": dam, "cost": cost};
+}
+
 function choosePlayer() {
   var cha = "";
   for (var ch in player_list)
