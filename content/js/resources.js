@@ -2,17 +2,16 @@ var skill_list  = {Fireball: { type: "inte",
                                cost: 5,
                                base_dam: 0.3, 
                                multi: 1.3,
-                               cd: 2,
+                               base_cd: 2,
                    },
                    Explosion:{ type: "inte",
                                cost: 10,
                                base_dam: 0.5,
                                multi: 1.5,
-                               cd: 3.
+                               base_cd: 3,
+                              
                    }};
-                               
-                    
-
+                
 var player_list = [{id:0,
                     name:"惠惠",
                     icon: { normal: "(∩ ◕_▩ )∩",
@@ -20,15 +19,14 @@ var player_list = [{id:0,
                             damaged: ".｡･ﾟﾟ･(＞_＜)･ﾟﾟ･｡.",
                             dead: "(✖╭╮✖)",
                     },
-                    skills : [
-                      {name: "Fireball", lv: 1},
-                      {name: "Explosion", lv: 0},
-                    ],
+                    skills : {"Fireball": {"lv": 1, "cd": 0},
+                              "Explosion": {"lv": 0, "cd": 0},
+                    },
                     str:10, 
                     dex:10,
                     inte:20,
                     gold: 0,
-                    exp: 0
+                    exp: 0,
                   }]
                             
 var monster_name_list = ["Tanglething", "Corpsefreak", "Abysssoul", "Fetidmonster", "The Ancient Mutt"]
