@@ -11,9 +11,7 @@ var skill_list  = {Fireball: { type: "inte",
                                base_cd: 3,
                               
                    }};
-                               
-                    
-
+                
 var player_list = [{id:0,
                     name:"惠惠",
                     icon: { normal: "(∩ ◕_▩ )∩",
@@ -28,7 +26,7 @@ var player_list = [{id:0,
                     dex:10,
                     inte:20,
                     gold: 0,
-                    exp: 0
+                    exp: 0,
                   }]
                             
 var monster_name_list = ["Tanglething", "Corpsefreak", "Abysssoul", "Fetidmonster", "The Ancient Mutt"]

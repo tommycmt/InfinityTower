@@ -28,7 +28,7 @@ function choosePlayer() {
     cha += (ch+1) + ". " + player_list[ch].name + "\n";
   name = prompt("Choose a character (Input the number): \n " + cha);
   var no = parseInt(name)-1;
-  return player_list[no];
+  return JSON.parse(JSON.stringify(player_list[no]));
 }
 
 function genMonster(stage) {
@@ -44,4 +44,3 @@ function genMonster(stage) {
 function start_game() {
   ReactDOM.render(<Game />, document.getElementById("root"));
 }
-

@@ -4,7 +4,7 @@ class Game extends React.Component {
     this.state = {
       stage: 1,
       player: choosePlayer(),
-      history: [],
+      history: {},
       computing: false,
     }
     this.init();
@@ -31,6 +31,12 @@ class Game extends React.Component {
   update_game_state(op, data) {
     this.setState({computing: true});
     switch (op) {
+      case "new_game": 
+        this.setState({stage: 1, player: choosePlayer(), history: []}, function() {
+          this.init();
+          this.setState({computing: false});
+        });
+        break;
       case "fight":
         var re = fight(data.player_choice);
         this.state.player_choice = data.player_choice;
@@ -101,9 +107,7 @@ class Game extends React.Component {
     }
     var new_mana = Math.min(this.state.player.mana + parseInt(this.state.player.inte/10), this.state.player.maxmana);
     var new_player = Object.assign({}, this.state.player, {mana: new_mana, skills: new_skills});
-    this.setState({player: new_player});
-    this.setState({computing: false});
-    
+    this.setState({player: new_player});    
     this.after_fight();
   }
   
@@ -129,20 +133,33 @@ class Game extends React.Component {
     
     this.setState({player: new_player, monster: new_monster, player_status: "normal", monster_status: "normal"});
     this.setState({message: 1, message_atk: "Player", message_crit: multi, message_method: data.skill_name, message_dam: dam});
-    this.setState({computing: false});
     this.after_fight();
+    
   }
   
   after_fight() {
     if (this.state.player.hp <= 0) {
       this.setState({player_status: "dead"});
-      this.player_pre_dead();
+      this.setState({message: 12});
+      setTimeout(()=>{this.player_pre_dead()}, 1000);
     } else if (this.state.monster.hp <= 0) {
       this.setState({monster_status: "dead"});
-      this.player_win();
+      this.setState({message: 11});
+      setTimeout(()=>{this.player_win()}, 1000);
+    } else {
+      this.setState({computing: false});
     }
   }
+  
+  player_pre_dead() {
+  }
 
+  player_win() {
+    var curr_stage = this.state.stage;
+    this.setState({stage: curr_stage + 1});
+    this.init();
+    this.setState({computing: false});
+  }
   
   render() {
     return (

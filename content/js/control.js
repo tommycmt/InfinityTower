@@ -15,12 +15,18 @@ class Control extends React.Component {
     }
   }
   
+  newGame() {
+    var confirmResult = prompt("Are you sure? (Y/y)");
+    if (confirmResult.toLowerCase() == "y") {
+      this.props.update("new_game", {});
+    }
+  }
+  
   fight(player_action) {
     this.props.update("fight", {"player_choice": player_action});
   }
   
   skill(skill_name, skill_lv) {
-    console.log(skill_name, skill_lv);
     this.props.update("skill", {"skill_name": skill_name, "skill_lv": skill_lv});
   }
   
@@ -57,7 +63,7 @@ class Control extends React.Component {
   render() {
     return (
       <div>
-        <button style={{"float":"left"}}>New Game</button>
+        <button style={{"float":"left"}} onClick={this.newGame.bind(this)}>New Game</button>
         {this.createFight_btn()}
         <br />
         <br />
