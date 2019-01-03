@@ -98,7 +98,7 @@ class Game extends React.Component {
           }          
         }
         var dam = ((this.state.monster.str/10 + parseInt(this.state.monster.inte/5)) * multi).toFixed(1);
-        var new_player = Object.assign({}, this.state.player, {hp: (this.state.player.hp - dam)).toFixed(1)});
+        var new_player = Object.assign({}, this.state.player, {hp: (this.state.player.hp - dam).toFixed(1)});
         this.setState({player: new_player, player_status: "normal", monster_status: "normal"});
         this.setState({fight_message: 1, message_content: {message_atk: "Monster", message_crit: multi, message_method: "normal", message_dam: dam}});
         break;
