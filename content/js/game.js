@@ -56,6 +56,11 @@ class Game extends React.Component {
         this.setState({player_status: "atk", monster_status: "damaged"});
         setTimeout(()=>{this.skill(re)}, 1000);
         break;
+      case "upgrade":
+        if (data.type == "stat") {
+          this.upgrade_stat(data);
+        }
+        break;
       default:
     }    
   }
@@ -76,7 +81,7 @@ class Game extends React.Component {
             break;
           }
         }          
-        var dam = (this.state.player.str/10 + parseInt(this.state.player.inte/10)) * multi;
+        var dam = ((this.state.player.str/10 + parseInt(this.state.player.inte/10)) * multi).toFixed(1);
         var new_monster = Object.assign({}, this.state.monster, {hp: this.state.monster.hp - dam});
         this.setState({monster: new_monster, player_status: "normal", monster_status: "normal"});
         this.setState({message: 1, message_atk: "Player", message_crit: multi, message_method: "normal", message_dam: dam});
@@ -92,7 +97,7 @@ class Game extends React.Component {
             break;
           }          
         }
-        var dam = (this.state.monster.str/10 + parseInt(this.state.monster.inte/10)) * multi;
+        var dam = ((this.state.monster.str/10 + parseInt(this.state.monster.inte/10)) * multi).toFixed(1);
         var new_player = Object.assign({}, this.state.player, {hp: this.state.player.hp - dam});
         this.setState({player: new_player, player_status: "normal", monster_status: "normal"});
         this.setState({message: 1, message_atk: "Monster", message_crit: multi, message_method: "normal", message_dam: dam});
@@ -128,7 +133,7 @@ class Game extends React.Component {
         break;
       }
     }    
-    var dam = data.dam * multi;
+    var dam = (data.dam * multi).toFixed(1);
     var new_monster = Object.assign({}, this.state.monster, {hp: this.state.monster.hp - dam});
     
     this.setState({player: new_player, monster: new_monster, player_status: "normal", monster_status: "normal"});
@@ -155,10 +160,22 @@ class Game extends React.Component {
   }
 
   player_win() {
-    var curr_stage = this.state.stage;
-    this.setState({stage: curr_stage + 1});
-    this.init();
-    this.setState({computing: false});
+    this.setState({upgrading: true});
+  }
+  
+  upgrade_stat(data) {
+    var stat_point = parseInt((this.state.stage+10) / 10)*2;
+    var statType = data.statType;
+    var new_player = Object.assign({}, this.state.player, {[statType]: this.state.player[data.statType] + stat_point});
+    this.setState({player: new_player, upgrading: false, message: 21, message_stat_type: statType,message_stat_point: stat_point}, 
+      () => 
+          {setTimeout(()=>{
+            var curr_stage = this.state.stage;
+            this.setState({stage: curr_stage + 1});
+            this.init();
+            this.setState({computing: false, });
+          }, 1500);}
+    );
   }
   
   render() {
@@ -174,10 +191,10 @@ class Game extends React.Component {
             <Monster monster={this.state.monster} status={this.state.monster_status} game={this.state} update={this.update}/>
           </div>
           <div id="game_message">
-            <Message message={this.state.message} message_atk={this.state.message_atk} message_crit={this.state.message_crit} message_dam={this.state.message_dam} message_method={this.state.message_method} update={this.update} />
+            <Message message={this.state.message} message_atk={this.state.message_atk} message_crit={this.state.message_crit} message_dam={this.state.message_dam} message_method={this.state.message_method} message_stat_type={this.state.message_stat_type} message_stat_point={this.state.message_stat_point} update={this.update} />
           </div>
           <div id="game_control">
-            <Control player={this.state.player} computing={this.state.computing} skills={this.state.player.skills} update={this.update} />
+            <Control player={this.state.player} computing={this.state.computing} skills={this.state.player.skills} upgrade={this.state.upgrading} update={this.update} />
           </div>
         </div>
     );

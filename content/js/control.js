@@ -30,12 +30,16 @@ class Control extends React.Component {
     this.props.update("skill", {"skill_name": skill_name, "skill_lv": skill_lv});
   }
   
+  upgrade_stat(statType) {
+    this.props.update("upgrade", {"type": "stat", "statType": statType});
+  }
+  
   createFight_btn() {
     var btns = [];
     for (var btn in this.state.fight) {
       btns.push(<button key={btn} className="fight_button" disabled={this.props.computing} onClick={this.fight.bind(this, this.state.fight[btn])} >{this.state.fight[btn]}</button>);
     }
-    return btns
+    return btns;
   }
   
   createSkill_btn() {
@@ -48,15 +52,17 @@ class Control extends React.Component {
       }
       btns.push(<button key={skill_name} className="skill_button" disabled={disable} onClick={this.skill.bind(this, skill_name, skill.lv)}>{skill_name} (lv: {skill.lv}, cd: {skill.cd})</button>);
     }
-    return btns
+    return btns;
   }
   
   createUpgrade_btn() {
     var btns = [];
-    for (var btn in this.state.upgrade) {
-      btns.push(<button key={btn} className="upgrade_button">{this.state.upgrade[btn]}</button>);
+    if (this.props.upgrade == true) {
+      for (var btn in this.state.upgrade) {
+        btns.push(<button key={btn} className="upgrade_button" onClick={this.upgrade_stat.bind(this, btn)}>{this.state.upgrade[btn]}</button>);
+      }
     }
-    return btns
+    return btns;
   }
       
   
@@ -69,7 +75,7 @@ class Control extends React.Component {
         <br />
         {this.createSkill_btn()}
         <div style={{"clear":"both","height":"5px"}}></div>
-          {this.createUpgrade_btn()}
+        {this.createUpgrade_btn()}
       </div>
     );
   }
