@@ -61,7 +61,7 @@ class Game extends React.Component {
         if (data.type == "stat") {
           this.upgrade_stat(data);
         } else if (data.type == "skill") {
-          this.upgrade_skill(data.skill_name);
+          this.upgrade_skill(data.skill_name, data.exp_cost);
         }
         break;
       case "item":
@@ -227,11 +227,11 @@ class Game extends React.Component {
     );
   }
   
-  upgrade_skill(skill_name) {
+  upgrade_skill(skill_name, exp_cost) {
     var new_lv = this.state.player.skills[skill_name].lv + 1;
     var new_skills = Object.assign({}, this.state.player.skills);
     new_skills[skill_name].lv = new_lv;
-    var new_player = Object.assign({}, this.state.player, {skills: new_skills});
+    var new_player = Object.assign({}, this.state.player, {skills: new_skills, exp: this.state.player.exp - exp_cost});
     
     this.setState({player: new_player, upgrading: false, message: 22, message_content: {message_skill_name: skill_name, message_skill_lv: new_lv}}, 
       () => 

@@ -1,13 +1,13 @@
 var skill_list  = {Fireball: { type: "inte",
-                               cost: 10,
+                               cost: 7,
                                base: 0, 
                                multi: 1.3,
                                base_cd: 2,
                    },
                    Explosion:{ type: "inte",
-                               cost: 20,
+                               cost: 15,
                                base: 1, 
-                               multi: 1.5,
+                               multi: 1.7,
                                base_cd: 3,
                               
                    }};
@@ -26,7 +26,7 @@ var player_list = [{id:0,
                     dex:10,
                     inte:20,
                     gold: 20,
-                    exp: 0,
+                    exp: 50,
                   }]
                             
 var monster_name_list = ["Tanglething", "Corpsefreak", "Abysssoul", "Fetidmonster", "The Ancient Mutt"]
