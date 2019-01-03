@@ -25,7 +25,7 @@ var player_list = [{id:0,
                     str:10, 
                     dex:10,
                     inte:20,
-                    gold: 0,
+                    gold: 20,
                     exp: 0,
                   }]
                             

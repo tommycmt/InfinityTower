@@ -39,6 +39,11 @@ body {
   float:right;
 }
 
+.item_button {
+  margin-left:5px;
+  float:right;
+}
+
 .upgrade_button {
   margin-left:5px;
   float:right;
