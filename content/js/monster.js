@@ -9,7 +9,7 @@ class Monster extends React.Component {
         <p>
           Monster: {this.props.monster.name}
           <br />
-          HP: {this.props.monster.hp}/{this.props.monster.maxhp}
+          HP: {(this.props.monster.hp).toFixed(1)}/{this.props.monster.maxhp}
           <br />
           Mana: {this.props.monster.mana}/{this.props.monster.maxmana}
           <br />
