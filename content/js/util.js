@@ -13,7 +13,7 @@ function fight(player_action) {
 
 function skill(player, skill_name, skill_lv) {
     var type = skill_list[skill_name].type;
-    var cost = skill_list[skill_name].cost * (skill_lv * 0.5);
+    var cost = skill_list[skill_name].cost * skill_lv;
     var multi = skill_list[skill_name].multi;
     
     var dam = (Math.pow(multi, player.skills[skill_name].lv * 1.5) * parseInt(player[type] / 3)).toFixed(1);

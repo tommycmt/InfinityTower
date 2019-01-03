@@ -34,8 +34,8 @@ class Control extends React.Component {
     this.props.update("upgrade", {"type": "stat", "statType": statType});
   }
   
-  upgrade_skill(skill_name) {
-    this.props.update("upgrade", {"type": "skill", "skill_name": skill_name});
+  upgrade_skill(skill_name, exp_cost) {
+    this.props.update("upgrade", {"type": "skill", "skill_name": skill_name, "exp_cost": exp_cost});
   }
   
   item(item_name, point, price) {
@@ -55,7 +55,7 @@ class Control extends React.Component {
     for (var skill_name in this.props.player.skills) {
       var disable = false;
       var skill = this.props.player.skills[skill_name];
-      if (this.props.computing || this.props.player.mana < skill_list[skill_name].cost || skill.lv <= 0 || skill.cd != 0) {
+      if (this.props.computing || this.props.player.mana < (skill_list[skill_name].cost * skill.lv) || skill.lv <= 0 || skill.cd != 0) {
         disable = true;
       }
       btns.push(<button key={skill_name} className="skill_button" disabled={disable} onClick={this.skill.bind(this, skill_name, skill.lv)}>{skill_name} (lv: {skill.lv}, cd: {skill.cd})</button>);
@@ -85,7 +85,7 @@ class Control extends React.Component {
       for (var skill_name in this.props.player.skills) {
         var skill = this.props.player.skills[skill_name];
         if (this.props.player.exp >= (skill.lv+skill_list[skill_name].base) * 50) {
-          btns.push(<button key={"upgrade_"+skill_name} className="upgrade_button" onClick={this.upgrade_skill.bind(this, skill_name)}>{skill_name} (lv: {skill.lv} -> {skill.lv + 1})</button>);
+          btns.push(<button key={"upgrade_"+skill_name} className="upgrade_button" onClick={this.upgrade_skill.bind(this, skill_name, (skill.lv+skill_list[skill_name].base) * 50)}>{skill_name} (lv: {skill.lv} -> {skill.lv + 1})</button>);
         }
       }
     }
