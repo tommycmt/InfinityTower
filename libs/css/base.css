@@ -13,17 +13,20 @@ body {
   width: 48%;
   float:left;
   text-align:left;
+  height: 200px;
 }
 
 #game_monster {
   width: 48%;
   float:right;
   text-align:right;
+  height: 200px;
 }
 
 #game_message {
   clear: both;
   text-align: center;
+  height: 70px;
 }
 
 .fight_button {

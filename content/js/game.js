@@ -14,14 +14,14 @@ class Game extends React.Component {
   
   init() {
     this.state.player.maxhp    = this.state.player.str * 1.5;
-    this.state.player.maxmana  = this.state.player.inte * 1.5;
+    this.state.player.maxmana  = this.state.player.inte;
     this.state.player.hp       = this.state.player.maxhp;
     this.state.player.mana     = this.state.player.maxmana;
     this.state.player_status   = "normal";
     
     this.state.monster         = genMonster(this.state.stage);
     this.state.monster.maxhp   = this.state.monster.str * 1.5;
-    this.state.monster.maxmana = this.state.monster.inte * 1.5;
+    this.state.monster.maxmana = this.state.monster.inte;
     this.state.monster.hp      = this.state.monster.maxhp;
     this.state.monster.mana    = this.state.monster.maxmana;
     this.state.monster_status  = "normal";
@@ -68,14 +68,14 @@ class Game extends React.Component {
   fight(op) {
     switch (op) {
       case "draw":
-        this.setState({message: 2});
+        this.setState({fight_message: 2});
         break;
       case "player_hit":
         var dex = this.state.player.dex;
         var multi = 1;
         while (true) {
           if (Math.random() * 50 < dex) {
-            multi += 0.5;
+            multi += 0.25;
             dex -= 50;
           } else {
             break;
@@ -84,14 +84,14 @@ class Game extends React.Component {
         var dam = ((this.state.player.str/10 + parseInt(this.state.player.inte/10)) * multi).toFixed(1);
         var new_monster = Object.assign({}, this.state.monster, {hp: this.state.monster.hp - dam});
         this.setState({monster: new_monster, player_status: "normal", monster_status: "normal"});
-        this.setState({message: 1, message_atk: "Player", message_crit: multi, message_method: "normal", message_dam: dam});
+        this.setState({fight_message: 1, message_content: {message_atk: "Player", message_crit: multi, message_method: "normal", message_dam: dam}});
         break;
       case "monster_hit":
         var dex = this.state.monster.dex;
         var multi = 1;
         while (true) {
           if (Math.random() * 50 < dex) {
-            multi += 0.5;
+            multi += 0.25;
             dex -= 50;
           } else {
             break;
@@ -100,7 +100,7 @@ class Game extends React.Component {
         var dam = ((this.state.monster.str/10 + parseInt(this.state.monster.inte/10)) * multi).toFixed(1);
         var new_player = Object.assign({}, this.state.player, {hp: this.state.player.hp - dam});
         this.setState({player: new_player, player_status: "normal", monster_status: "normal"});
-        this.setState({message: 1, message_atk: "Monster", message_crit: multi, message_method: "normal", message_dam: dam});
+        this.setState({fight_message: 1, message_content: {message_atk: "Monster", message_crit: multi, message_method: "normal", message_dam: dam}});
         break;
       default:
         break;
@@ -127,7 +127,7 @@ class Game extends React.Component {
     var multi = 1;
     while (true) {
       if (Math.random() * 50 < dex) {
-        multi += 0.5;
+        multi += 0.25;
         dex -= 50;
       } else {
         break;
@@ -137,7 +137,7 @@ class Game extends React.Component {
     var new_monster = Object.assign({}, this.state.monster, {hp: this.state.monster.hp - dam});
     
     this.setState({player: new_player, monster: new_monster, player_status: "normal", monster_status: "normal"});
-    this.setState({message: 1, message_atk: "Player", message_crit: multi, message_method: data.skill_name, message_dam: dam});
+    this.setState({fight_message: 1, message_content: {message_atk: "Player", message_crit: multi, message_method: data.skill_name, message_dam: dam}});
     this.after_fight();
     
   }
@@ -160,20 +160,22 @@ class Game extends React.Component {
   }
 
   player_win() {
+    this.setState({fight_message: -1});
     this.setState({upgrading: true});
   }
   
   upgrade_stat(data) {
-    var stat_point = parseInt((this.state.stage+10) / 10)*2;
+    var stat_point = parseInt((this.state.stage+5)/5);
     var statType = data.statType;
     var new_player = Object.assign({}, this.state.player, {[statType]: this.state.player[data.statType] + stat_point});
-    this.setState({player: new_player, upgrading: false, message: 21, message_stat_type: statType,message_stat_point: stat_point}, 
+    this.setState({player: new_player, upgrading: false, message: 21, message_content: {message_stat_type: statType,message_stat_point: stat_point}}, 
       () => 
           {setTimeout(()=>{
             var curr_stage = this.state.stage;
             this.setState({stage: curr_stage + 1});
             this.init();
             this.setState({computing: false, });
+            this.setState({message: -1});
           }, 1500);}
     );
   }
@@ -191,7 +193,7 @@ class Game extends React.Component {
             <Monster monster={this.state.monster} status={this.state.monster_status} game={this.state} update={this.update}/>
           </div>
           <div id="game_message">
-            <Message message={this.state.message} message_atk={this.state.message_atk} message_crit={this.state.message_crit} message_dam={this.state.message_dam} message_method={this.state.message_method} message_stat_type={this.state.message_stat_type} message_stat_point={this.state.message_stat_point} update={this.update} />
+            <Message fight_message={this.state.fight_message} message={this.state.message} message_content={this.state.message_content} update={this.update} />
           </div>
           <div id="game_control">
             <Control player={this.state.player} computing={this.state.computing} skills={this.state.player.skills} upgrade={this.state.upgrading} update={this.update} />
