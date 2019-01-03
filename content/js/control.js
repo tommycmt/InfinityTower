@@ -34,6 +34,10 @@ class Control extends React.Component {
     this.props.update("upgrade", {"type": "stat", "statType": statType});
   }
   
+  upgrade_skill(skill_name) {
+    this.props.update("upgrade", {"type": "skill", "skill_name": skill_name});
+  }
+  
   createFight_btn() {
     var btns = [];
     for (var btn in this.state.fight) {
@@ -60,6 +64,12 @@ class Control extends React.Component {
     if (this.props.upgrade == true) {
       for (var btn in this.state.upgrade) {
         btns.push(<button key={btn} className="upgrade_button" onClick={this.upgrade_stat.bind(this, btn)}>{this.state.upgrade[btn]}</button>);
+      }
+      for (var skill_name in this.props.player.skills) {
+        var skill = this.props.player.skills[skill_name];
+        if (this.props.player.exp >= (skill.lv+skill_list[skill_name].base) * 50) {
+          btns.push(<button key={"upgrade_"+skill_name} className="upgrade_button" onClick={this.upgrade_skill.bind(this, skill_name)}>{skill_name} (lv: {skill.lv} -> {skill.lv + 1})</button>);
+        }
       }
     }
     return btns;

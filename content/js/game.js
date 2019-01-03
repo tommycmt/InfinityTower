@@ -59,6 +59,8 @@ class Game extends React.Component {
       case "upgrade":
         if (data.type == "stat") {
           this.upgrade_stat(data);
+        } else if (data.type == "skill") {
+          this.upgrade_skill(data.skill_name);
         }
         break;
       default:
@@ -162,6 +164,11 @@ class Game extends React.Component {
   player_win() {
     this.setState({fight_message: -1});
     this.setState({upgrading: true});
+    
+    var new_player = Object.assign({}, this.state.player, {gold: this.state.player.gold + parseInt(Math.random() * 2) + (this.state.stage * 2),
+                                                           exp:  this.state.player.exp + parseInt(Math.random() * 4) + (this.state.stage * 2)});
+                                                           
+    this.setState({player: new_player});
   }
   
   upgrade_stat(data) {
@@ -169,6 +176,24 @@ class Game extends React.Component {
     var statType = data.statType;
     var new_player = Object.assign({}, this.state.player, {[statType]: this.state.player[data.statType] + stat_point});
     this.setState({player: new_player, upgrading: false, message: 21, message_content: {message_stat_type: statType,message_stat_point: stat_point}}, 
+      () => 
+          {setTimeout(()=>{
+            var curr_stage = this.state.stage;
+            this.setState({stage: curr_stage + 1});
+            this.init();
+            this.setState({computing: false, });
+            this.setState({message: -1});
+          }, 1500);}
+    );
+  }
+  
+  upgrade_skill(skill_name) {
+    var new_lv = this.state.player.skills[skill_name].lv + 1;
+    var new_skills = Object.assign({}, this.state.player.skills);
+    new_skills[skill_name].lv = new_lv;
+    var new_player = Object.assign({}, this.state.player, {skills: new_skills});
+    
+    this.setState({player: new_player, upgrading: false, message: 22, message_content: {message_skill_name: skill_name, message_skill_lv: new_lv}}, 
       () => 
           {setTimeout(()=>{
             var curr_stage = this.state.stage;
