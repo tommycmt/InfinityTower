@@ -17,7 +17,7 @@ function skill(player, skill_name, skill_lv) {
     var base_dam = skill_list[skill_name].base_dam;
     var multi = skill_list[skill_name].multi;
     
-    var dam = (Math.pow(1.3, player.skills[skill_name].lv) * parseInt(player[type] / 5)).toFixed(1);
+    var dam = (Math.pow(multi, player.skills[skill_name].lv) * parseInt(player[type] / 3)).toFixed(1);
     
     return {"skill_name": skill_name,"dam": dam, "cost": cost};
 }

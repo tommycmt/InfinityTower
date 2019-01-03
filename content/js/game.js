@@ -81,8 +81,8 @@ class Game extends React.Component {
             break;
           }
         }          
-        var dam = ((this.state.player.str/10 + parseInt(this.state.player.inte/10)) * multi).toFixed(1);
-        var new_monster = Object.assign({}, this.state.monster, {hp: this.state.monster.hp - dam});
+        var dam = ((this.state.player.str/10 + parseInt(this.state.player.inte/5)) * multi).toFixed(1);
+        var new_monster = Object.assign({}, this.state.monster, {hp: (this.state.monster.hp - dam)).toFixed(1)});
         this.setState({monster: new_monster, player_status: "normal", monster_status: "normal"});
         this.setState({fight_message: 1, message_content: {message_atk: "Player", message_crit: multi, message_method: "normal", message_dam: dam}});
         break;
@@ -97,8 +97,8 @@ class Game extends React.Component {
             break;
           }          
         }
-        var dam = ((this.state.monster.str/10 + parseInt(this.state.monster.inte/10)) * multi).toFixed(1);
-        var new_player = Object.assign({}, this.state.player, {hp: this.state.player.hp - dam});
+        var dam = ((this.state.monster.str/10 + parseInt(this.state.monster.inte/5)) * multi).toFixed(1);
+        var new_player = Object.assign({}, this.state.player, {hp: (this.state.player.hp - dam)).toFixed(1)});
         this.setState({player: new_player, player_status: "normal", monster_status: "normal"});
         this.setState({fight_message: 1, message_content: {message_atk: "Monster", message_crit: multi, message_method: "normal", message_dam: dam}});
         break;
@@ -110,7 +110,7 @@ class Game extends React.Component {
       var new_cd = Math.max(this.state.player.skills[skill_name].cd -1 ,0);
       new_skills[skill_name].cd = new_cd;
     }
-    var new_mana = Math.min(this.state.player.mana + parseInt(this.state.player.inte/10), this.state.player.maxmana);
+    var new_mana = Math.min(this.state.player.mana + parseInt(this.state.player.inte/6), this.state.player.maxmana);
     var new_player = Object.assign({}, this.state.player, {mana: new_mana, skills: new_skills});
     this.setState({player: new_player});    
     this.after_fight();
@@ -134,7 +134,7 @@ class Game extends React.Component {
       }
     }    
     var dam = (data.dam * multi).toFixed(1);
-    var new_monster = Object.assign({}, this.state.monster, {hp: this.state.monster.hp - dam});
+    var new_monster = Object.assign({}, this.state.monster, {hp: (this.state.monster.hp - dam).toFixed(1)});
     
     this.setState({player: new_player, monster: new_monster, player_status: "normal", monster_status: "normal"});
     this.setState({fight_message: 1, message_content: {message_atk: "Player", message_crit: multi, message_method: data.skill_name, message_dam: dam}});

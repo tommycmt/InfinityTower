@@ -9,7 +9,7 @@ class Player extends React.Component {
         <p>
           Player: {this.props.player.name}
           <br />
-          HP: {(this.props.player.hp).toFixed(1)}/{this.props.player.maxhp}
+          HP: {this.props.player.hp}/{this.props.player.maxhp}
           <br />
           Mana: {this.props.player.mana}/{this.props.player.maxmana}
           <br />
