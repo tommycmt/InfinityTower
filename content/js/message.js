@@ -12,31 +12,44 @@ class Message extends React.Component {
   }
   
   render() {
-    var message;
-    if (this.props.message == 0) {
-      message = "New Game";
-    } else if (this.props.message == 1) {
-      message = this.props.message_atk + " "+ this.props.message_method +" attacks, deal " + parseFloat(this.props.message_dam).toFixed(1) + " damages";
-      if (this.props.message_crit > 1) {
-        message += ", critical " + this.props.message_crit + "x";
-      }
-    } else if (this.props.message == 2) {
-      message = "Draw";
-    } else if (this.props.message == 11) {
-      message = "Player wins, Upgrade and go to next stage";
-    } else if (this.props.message == 12) {
-      message = "Player lose, good luck next time";
-    } else if (this.props.message == 21) {
-      message = "Upgraded " + this.props.message_stat_point + " " + this.state.upgrade[this.props.message_stat_type]
-    } else {
-      message = "";
+    var fight_message = "";
+    var message = "";
+    switch (this.props.fight_message) {
+      case 1:
+        fight_message = this.props.message_content.message_atk + " "+ this.props.message_content.message_method +" attacks, deal " + parseFloat(this.props.message_content.message_dam).toFixed(1) + " damages";
+        if (this.props.message_content.message_crit > 1) {
+          fight_message += ", critical " + this.props.message_content.message_crit + "x";
+        }
+        break;
+      case 2:
+        fight_message = "Draw";
+        break;
+      default:
+        fight_message = "";
+    }
+    switch (this.props.message) {
+      case 0:
+        message = "New Game";
+        break;
+      case 11:
+        message = "Player wins, Upgrade and go to next stage";
+        break;
+      case 12:
+        message = "Player lose, good luck next time";
+        break;
+      case 21:
+        message = "Upgraded " + this.props.message_content.message_stat_point + " " + this.state.upgrade[this.props.message_content.message_stat_type];
+        break;
+      default:
+        message ="";
     }
     return (
       <div>
         <p id="fight_message">
-          {message}
+          {fight_message}
         </p>
         <p id="message">
+          {message}
         </p>
       </div>
     );
