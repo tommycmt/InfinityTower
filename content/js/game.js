@@ -6,6 +6,7 @@ class Game extends React.Component {
       player: choosePlayer(),
       history: {},
       computing: false,
+      predead: false,
     }
     this.init();
     this.update = this.update_game_state.bind(this);
@@ -32,7 +33,7 @@ class Game extends React.Component {
     this.setState({computing: true});
     switch (op) {
       case "new_game": 
-        this.setState({stage: 1, player: choosePlayer(), history: []}, function() {
+        this.setState({stage: 1, player: choosePlayer(), history: [], predead: false}, function() {
           this.init();
           this.setState({computing: false});
         });
@@ -63,6 +64,43 @@ class Game extends React.Component {
           this.upgrade_skill(data.skill_name);
         }
         break;
+      case "item":
+        this.setState({fight_message: -1});
+        if (data.name == "reborn") {
+          var new_player = Object.assign({}, this.state.player, {gold: (this.state.player.gold - data.price)});
+          this.setState({player: new_player, message:34, message_content:{message_price: 100}}, () =>
+            {setTimeout(()=>{
+              this.init();
+              this.setState({computing: false, predead: false});
+              this.setState({message: -1});
+            }, 1500);}
+          );
+        } else {
+          switch (data.name) {
+            case "hp":
+              var new_hp = Math.min(parseInt(this.state.player.hp) + parseInt(data.point), this.state.player.maxhp);
+              var new_player = Object.assign({}, this.state.player, {hp: new_hp, gold: (this.state.player.gold - data.price)});
+              this.setState({player: new_player});
+              this.setState({message: 31, message_content: {message_price: data.price, message_hp:data.point}});
+              break;
+            case "mana":
+              var new_mana = Math.min(parseInt(this.state.player.mana) + parseInt(data.point), this.state.player.maxmana);
+              var new_player = Object.assign({}, this.state.player, {mana: new_mana, gold: (this.state.player.gold - data.price)});
+              this.setState({player: new_player});
+              this.setState({message: 32, message_content: {message_price: data.price, message_mana:data.point}});
+              break;
+            case "bomb":
+              var dam = data.point;
+              var new_player = Object.assign({}, this.state.player, {gold: (this.state.player.gold - data.price)});
+              this.setState({player: new_player});
+              var new_monster = Object.assign({}, this.state.monster, {hp: (this.state.monster.hp - dam).toFixed(1)});
+              this.setState({monster: new_monster});
+              this.setState({player_status: "atk", monster_status: "damaged"});
+              this.setState({message: 33, message_content: {message_price: data.price, message_dam:data.point}});
+              break;
+          }
+          setTimeout(()=>{this.after_fight()}, 1000);
+        }
       default:
     }    
   }
@@ -154,11 +192,13 @@ class Game extends React.Component {
       this.setState({message: 11});
       setTimeout(()=>{this.player_win()}, 1000);
     } else {
-      this.setState({computing: false});
+      this.setState({computing: false, message: -1});
     }
   }
   
   player_pre_dead() {
+    this.setState({fight_message: -1});
+    this.setState({predead: true});
   }
 
   player_win() {
@@ -221,7 +261,7 @@ class Game extends React.Component {
             <Message fight_message={this.state.fight_message} message={this.state.message} message_content={this.state.message_content} update={this.update} />
           </div>
           <div id="game_control">
-            <Control player={this.state.player} computing={this.state.computing} skills={this.state.player.skills} upgrade={this.state.upgrading} update={this.update} />
+            <Control player={this.state.player} computing={this.state.computing} skills={this.state.player.skills} upgrade={this.state.upgrading} predead={this.state.predead}update={this.update} />
           </div>
         </div>
     );

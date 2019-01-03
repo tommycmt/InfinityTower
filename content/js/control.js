@@ -38,6 +38,10 @@ class Control extends React.Component {
     this.props.update("upgrade", {"type": "skill", "skill_name": skill_name});
   }
   
+  item(item_name, point, price) {
+    this.props.update("item", {"name": item_name, "point": point,  "price": price});
+  }
+  
   createFight_btn() {
     var btns = [];
     for (var btn in this.state.fight) {
@@ -55,6 +59,19 @@ class Control extends React.Component {
         disable = true;
       }
       btns.push(<button key={skill_name} className="skill_button" disabled={disable} onClick={this.skill.bind(this, skill_name, skill.lv)}>{skill_name} (lv: {skill.lv}, cd: {skill.cd})</button>);
+    }
+    return btns;
+  }
+  
+  createItem_btn() {
+    var btns =[];
+    if (this.props.player.gold >= 10 && this.props.predead != true) {
+      btns.push(<button key={"item_hp"} className="item_button" onClick={this.item.bind(this, "hp",10,  10)}>Recover 10 HP (10 gold)</button>);
+      btns.push(<button key={"item_mana"} className="item_button" onClick={this.item.bind(this, "mana",10, 10)}>Recover 10 Mana (10 gold)</button>);
+      btns.push(<button key={"item_bomb"} className="item_button" onClick={this.item.bind(this, "bomb",10, 10)}>Deal 10 damage (10 gold)</button>);
+    }
+    if (this.props.predead == true && this.props.player.gold >= 100) {
+      btns.push(<button key={"item_reborn"} className="item_button" onClick={this.item.bind(this, "reborn", 0, 100)}>Reborn (100 gold)</button>);
     }
     return btns;
   }
@@ -81,11 +98,13 @@ class Control extends React.Component {
       <div>
         <button style={{"float":"left"}} onClick={this.newGame.bind(this)}>New Game</button>
         {this.createFight_btn()}
-        <br />
-        <br />
+        <div style={{"clear":"both","height":"5px"}}></div>
         {this.createSkill_btn()}
         <div style={{"clear":"both","height":"5px"}}></div>
+        {this.createItem_btn()}
+        <div style={{"clear":"both","height":"5px"}}></div>
         {this.createUpgrade_btn()}
+        <div style={{"clear":"both","height":"5px"}}></div>
       </div>
     );
   }

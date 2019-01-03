@@ -35,13 +35,25 @@ class Message extends React.Component {
         message = "Player wins, Upgrade and go to next stage";
         break;
       case 12:
-        message = "Player lose, good luck next time";
+        message = "Player lose";
         break;
       case 21:
         message = "Upgraded " + this.props.message_content.message_stat_point + " " + this.state.upgrade[this.props.message_content.message_stat_type];
         break;
       case 22:
         message = "Upgraded " + this.props.message_content.message_skill_name + " to lv " + this.props.message_content.message_skill_lv;
+        break;
+      case 31:
+        message = "Recover " + this.props.message_content.message_hp + " hp, cost " + this.props.message_content.message_price + " gold";
+        break;
+      case 32:
+        message = "Recover " + this.props.message_content.message_mana + " mana, cost " + this.props.message_content.message_price + " gold";
+        break;
+      case 33:
+        message = "Deal " + this.props.message_content.message_dam + " damage, cost " + this.props.message_content.message_price + " gold";
+        break;
+      case 34:
+        message = "Reborn, cost " + this.props.message_content.message_price + " gold";
         break;
       default:
         message ="";
