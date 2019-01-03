@@ -40,6 +40,9 @@ class Message extends React.Component {
       case 21:
         message = "Upgraded " + this.props.message_content.message_stat_point + " " + this.state.upgrade[this.props.message_content.message_stat_type];
         break;
+      case 22:
+        message = "Upgraded " + this.props.message_content.message_skill_name + " to lv " + this.props.message_content.message_skill_lv;
+        break;
       default:
         message ="";
     }
