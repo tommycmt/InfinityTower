@@ -66,9 +66,9 @@ class Control extends React.Component {
   createItem_btn() {
     var btns =[];
     if (this.props.player.gold >= 10 && this.props.predead != true) {
-      btns.push(<button key={"item_hp"} className="item_button" onClick={this.item.bind(this, "hp",10,  10)}>Recover 10 HP (10 gold)</button>);
-      btns.push(<button key={"item_mana"} className="item_button" onClick={this.item.bind(this, "mana",10, 10)}>Recover 10 Mana (10 gold)</button>);
-      btns.push(<button key={"item_bomb"} className="item_button" onClick={this.item.bind(this, "bomb",10, 10)}>Deal 10 damage (10 gold)</button>);
+      btns.push(<button key={"item_hp"} className="item_button" onClick={this.item.bind(this, "hp",10,  10)} disabled={this.props.computing}>Recover 10 HP (10 gold)</button>);
+      btns.push(<button key={"item_mana"} className="item_button" onClick={this.item.bind(this, "mana",10, 10)} disabled={this.props.computing}>Recover 10 Mana (10 gold)</button>);
+      btns.push(<button key={"item_bomb"} className="item_button" onClick={this.item.bind(this, "bomb",10, 10)} disabled={this.props.computing}>Deal 10 damage (10 gold)</button>);
     }
     if (this.props.predead == true && this.props.player.gold >= 100) {
       btns.push(<button key={"item_reborn"} className="item_button" onClick={this.item.bind(this, "reborn", 0, 100)}>Reborn (100 gold)</button>);
