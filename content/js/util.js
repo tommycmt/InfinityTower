@@ -1,3 +1,5 @@
+var game_started = false;
+
 function fight(player_action) {
     var choices = ["Paper", "Scissor", "Stone"];
     var player_choice = choices.indexOf(player_action);
@@ -22,10 +24,18 @@ function skill(player, skill_name, skill_lv) {
 }
 
 function choosePlayer() {
+  
   var cha = "";
+  var name = "";
   for (var ch in player_list)
     cha += (ch+1) + ". " + player_list[ch].name + "\n";
-  name = prompt("Choose a character (Input the number): \n " + cha);
+  while (true) {
+    name = prompt("Choose a character (Input the number): \n " + cha);
+    if (game_started || (name != "null" && name != null && player_list[parseInt(name)-1] != undefined)) {
+      break;
+      game_started = true;
+    }
+  }
   var no = parseInt(name)-1;
   return JSON.parse(JSON.stringify(player_list[no]));
 }
