@@ -13,14 +13,14 @@ body {
   width: 48%;
   float:left;
   text-align:left;
-  height: 200px;
+  height: 230px;
 }
 
 #game_monster {
   width: 48%;
   float:right;
   text-align:right;
-  height: 200px;
+  height: 230px;
 }
 
 #game_message {
