@@ -65,10 +65,10 @@ class Control extends React.Component {
   
   createItem_btn() {
     var btns =[];
-    if (this.props.player.gold >= 10 && this.props.predead != true) {
-      btns.push(<button key={"item_hp"} className="item_button" onClick={this.item.bind(this, "hp",10,  10)} disabled={this.props.computing}>Recover 10 HP (10 gold)</button>);
-      btns.push(<button key={"item_mana"} className="item_button" onClick={this.item.bind(this, "mana",10, 10)} disabled={this.props.computing}>Recover 10 Mana (10 gold)</button>);
-      btns.push(<button key={"item_bomb"} className="item_button" onClick={this.item.bind(this, "bomb",10, 10)} disabled={this.props.computing}>Deal 10 damage (10 gold)</button>);
+    if (this.props.player.gold >= 10 && this.props.predead != true && this.props.computing != true) {
+      btns.push(<button key={"item_hp"} className="item_button" onClick={this.item.bind(this, "hp",10,  10)}>Recover 10 HP (10 gold)</button>);
+      btns.push(<button key={"item_mana"} className="item_button" onClick={this.item.bind(this, "mana",10, 10)}>Recover 10 Mana (10 gold)</button>);
+      btns.push(<button key={"item_bomb"} className="item_button" onClick={this.item.bind(this, "bomb",10, 10)}>Deal 10 damage (10 gold)</button>);
     }
     if (this.props.predead == true && this.props.player.gold >= 100) {
       btns.push(<button key={"item_reborn"} className="item_button" onClick={this.item.bind(this, "reborn", 0, 100)}>Reborn (100 gold)</button>);
@@ -85,7 +85,8 @@ class Control extends React.Component {
       for (var skill_name in this.props.player.skills) {
         var skill = this.props.player.skills[skill_name];
         if (this.props.player.exp >= (skill.lv+skill_list[skill_name].base) * 50) {
-          btns.push(<button key={"upgrade_"+skill_name} className="upgrade_button" onClick={this.upgrade_skill.bind(this, skill_name, (skill.lv+skill_list[skill_name].base) * 50)}>{skill_name} (lv: {skill.lv} -> {skill.lv + 1})</button>);
+          var display_name = skill_name + " (lv: " + skill.lv + " -> " + (skill.lv+1) + ")";
+          btns.push(<button key={"upgrade_"+skill_name} className="upgrade_button" onClick={this.upgrade_skill.bind(this, skill_name, (skill.lv+skill_list[skill_name].base) * 50)}>{display_name}</button>);
         }
       }
     }
@@ -98,13 +99,17 @@ class Control extends React.Component {
       <div>
         <button style={{"float":"left"}} onClick={this.newGame.bind(this)}>New Game</button>
         {this.createFight_btn()}
-        <div style={{"clear":"both","height":"5px"}}></div>
+        <div style={{"clear":"both","height":"2px"}}></div>
         {this.createSkill_btn()}
-        <div style={{"clear":"both","height":"5px"}}></div>
-        {this.createItem_btn()}
-        <div style={{"clear":"both","height":"5px"}}></div>
-        {this.createUpgrade_btn()}
-        <div style={{"clear":"both","height":"5px"}}></div>
+        <div style={{"clear":"both","height":"2px"}}></div>
+        <div className="item_button_group">
+          {this.createItem_btn()}
+        </div>
+        <div style={{"clear":"both","height":"2px"}}></div>
+        <div className="upgrade_button_group">
+          {this.createUpgrade_btn()}
+        </div>
+        <div style={{"clear":"both","height":"2px"}}></div>
       </div>
     );
   }

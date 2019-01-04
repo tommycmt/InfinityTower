@@ -67,7 +67,12 @@ class Game extends React.Component {
       case "item":
         this.setState({fight_message: -1});
         if (data.name == "reborn") {
-          var new_player = Object.assign({}, this.state.player, {gold: (this.state.player.gold - data.price)});
+          var new_skills = Object.assign({}, this.state.player.skills);
+          for (var skill_name in this.state.player.skills) {
+            var new_cd = 0;
+            new_skills[skill_name].cd = new_cd;
+          }
+          var new_player = Object.assign({}, this.state.player, {gold: (this.state.player.gold - data.price), skills: new_skills});
           this.setState({player: new_player, message:34, message_content:{message_price: 100}}, () =>
             {setTimeout(()=>{
               this.init();
@@ -212,7 +217,7 @@ class Game extends React.Component {
   }
   
   upgrade_stat(data) {
-    var stat_point = parseInt((this.state.stage+5)/5);
+    var stat_point = Math.min(parseInt((this.state.stage+5)/5), 10);
     var statType = data.statType;
     var new_player = Object.assign({}, this.state.player, {[statType]: this.state.player[data.statType] + stat_point});
     this.setState({player: new_player, upgrading: false, message: 21, message_content: {message_stat_type: statType,message_stat_point: stat_point}}, 

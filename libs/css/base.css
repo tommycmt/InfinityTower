@@ -37,18 +37,36 @@ body {
 .skill_button {
   margin-left:5px;
   float:right;
+  margin-top: 5px;
 }
+
+.item_button_group {
+  float:right;
+  display:inline;
+}
+
 
 .item_button {
   margin-left:5px;
+  margin-top: 5px;
+}
+
+.upgrade_button_group {
   float:right;
+  display:inline;
 }
 
 .upgrade_button {
   margin-left:5px;
-  float:right;
+  margin-top: 5px;
 }
 
 .icon.player {
   //display: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .item_button_group, .upgrade_button_group {
+    display:inline-grid;
+  }
 }
