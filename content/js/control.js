@@ -17,7 +17,7 @@ class Control extends React.Component {
   
   newGame() {
     var confirmResult = prompt("Are you sure? (Y/y)");
-    if (confirmResult.toLowerCase() == "y") {
+    if (confirmResult != "undefined" && confirmResult != null && confirmResult.toLowerCase() == "y") {
       this.props.update("new_game", {});
     }
   }

@@ -7,7 +7,7 @@ var skill_list  = {Fireball: { type: "inte",
                    Explosion:{ type: "inte",
                                cost: 15,
                                base: 1, 
-                               multi: 1.7,
+                               multi: 1.5,
                                base_cd: 3,
                               
                    }};
@@ -33,7 +33,7 @@ var monster_name_list = ["Tanglething", "Corpsefreak", "Abysssoul", "Fetidmonste
 var monster_icon_list = [ 
                       { id: 0,
                         icon: { normal: "Ψ(●｀▽´● )Ψ",
-                                atk: "(~~~~~~~[]=¤Ψ(●｀▽´● )Ψ",
+                                atk: "(~~~~~[]=¤Ψ(●｀▽´● )Ψ",
                                 damaged: "ヽ ( ꒪д꒪ )ﾉ",
                                 dead: "(+_+)",
                         }

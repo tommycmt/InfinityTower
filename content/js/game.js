@@ -210,14 +210,14 @@ class Game extends React.Component {
     this.setState({fight_message: -1});
     this.setState({upgrading: true});
     
-    var new_player = Object.assign({}, this.state.player, {gold: this.state.player.gold + parseInt(Math.random() * 2) + (this.state.stage * 2),
-                                                           exp:  this.state.player.exp + parseInt(Math.random() * 4) + (this.state.stage * 2)});
+    var new_player = Object.assign({}, this.state.player, {gold: this.state.player.gold + parseInt(Math.random() * 5) + (this.state.stage),
+                                                           exp:  this.state.player.exp + parseInt(Math.random() * 5) + (this.state.stage)});
                                                            
     this.setState({player: new_player});
   }
   
   upgrade_stat(data) {
-    var stat_point = Math.min(parseInt((this.state.stage+5)/5), 10);
+    var stat_point = Math.min(parseInt((this.state.stage+5)/5), 5);
     var statType = data.statType;
     var new_player = Object.assign({}, this.state.player, {[statType]: this.state.player[data.statType] + stat_point});
     this.setState({player: new_player, upgrading: false, message: 21, message_content: {message_stat_type: statType,message_stat_point: stat_point}}, 
