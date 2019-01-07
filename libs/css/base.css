@@ -13,20 +13,20 @@ body {
   width: 48%;
   float:left;
   text-align:left;
-  height: 230px;
+  min-height: 250px;
 }
 
 #game_monster {
   width: 48%;
   float:right;
   text-align:right;
-  height: 230px;
+  min-height: 250px;
 }
 
 #game_message {
   clear: both;
   text-align: center;
-  height: 70px;
+  min-height: 80px;
 }
 
 .fight_button {
@@ -68,5 +68,17 @@ body {
 @media only screen and (max-width: 600px) {
   .item_button_group, .upgrade_button_group {
     display:inline-grid;
+  }
+  
+  p {
+    font-size: 3.6vw;
+  }
+  
+  #game_player {
+    min-height: 200px;
+  }
+
+  #game_monster {
+    min-height: 200px;
   }
 }

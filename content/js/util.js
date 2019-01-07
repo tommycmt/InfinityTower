@@ -18,7 +18,7 @@ function skill(player, skill_name, skill_lv) {
     var cost = skill_list[skill_name].cost * skill_lv;
     var multi = skill_list[skill_name].multi;
     
-    var dam = (Math.pow(multi, player.skills[skill_name].lv * 1.5) * parseInt(player[type] / 3)).toFixed(1);
+    var dam = (Math.pow(multi, player.skills[skill_name].lv * 1.25) * parseInt(player[type] / 5)).toFixed(1);
     
     return {"skill_name": skill_name,"dam": dam, "cost": cost};
 }
@@ -44,9 +44,9 @@ function genMonster(stage) {
   var name = monster_name_list[parseInt(Math.random()*monster_name_list.length)];
   var monster = monster_icon_list[parseInt(Math.random()*monster_icon_list.length)];
   monster.name = name;
-  monster.str = 10 + parseInt(stage/5) * 5 + parseInt(Math.random() * stage);
-  monster.dex = 10 + parseInt(stage/5) * 5 + parseInt(Math.random() * stage);
-  monster.inte = 10 + parseInt(stage/5) * 5 + parseInt(Math.random() * stage);
+  monster.str = 10 + parseInt(stage/5) * 4 + parseInt((Math.random() * 0.5 + 1) * stage);
+  monster.dex = 10 + parseInt(stage/5) * 4 + parseInt((Math.random() * 0.5 + 1)  * stage);
+  monster.inte = 10 + parseInt(stage/5) * 4 + parseInt((Math.random() * 0.5 + 1) * stage);
   return monster;
 }
 
