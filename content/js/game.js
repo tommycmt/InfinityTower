@@ -7,6 +7,7 @@ class Game extends React.Component {
       history: {},
       computing: false,
       predead: false,
+      upgrading:false,
     }
     this.init();
     this.update = this.update_game_state.bind(this);
@@ -33,9 +34,9 @@ class Game extends React.Component {
     this.setState({computing: true});
     switch (op) {
       case "new_game": 
-        this.setState({stage: 1, player: choosePlayer(), history: [], predead: false}, function() {
+        this.setState({stage: 1, player: choosePlayer(), history: [],upgrading:false, predead: false}, function() {
           this.init();
-          this.setState({computing: false});
+          this.setState({computing: false });
         });
         break;
       case "fight":
