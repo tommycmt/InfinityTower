@@ -27,7 +27,6 @@ class Game extends React.Component {
     this.state.monster.hp      = this.state.monster.maxhp;
     this.state.monster.mana    = this.state.monster.maxmana;
     this.state.monster_status  = "normal";
-    this.state.history         = this.state.player;
   }
   
   update_game_state(op, data) {
@@ -38,6 +37,32 @@ class Game extends React.Component {
           this.init();
           this.setState({computing: false });
         });
+        break;
+      case "save_game":
+        //var player = this.state.player;
+        //var stage = this.state.stage;
+        //var obj = {"player": player, "stage": stage};
+        var obj = {"state": this.state};
+        var encoded = b64EncodeUnicode(JSON.stringify(obj));
+        this.setState({fight_message: -1, message: 41});
+        setTimeout(()=>{this.setState({fight_message: -1,message: 42, message_content: {message_save_data: encoded}}, function() {
+          this.setState({computing: false });
+        });}, 1000);
+        break;
+      case "load_game":
+        try {
+          var encoded = b64DecodeUnicode(data.saved_data);
+          var decoded = JSON.parse(encoded);
+          //this.setState({stage: decoded.stage, player: decoded.player, history: [],upgrading:false, predead: false}, function() {
+          //  this.init();
+          decoded.state.computing = false;
+          Object.keys(decoded.state).forEach((key)=> {
+            this.setState({[key]: decoded.state[key]});
+          });
+        } catch(e) {
+          alert("Corrupted Data");
+        }
+        this.setState({computing: false });
         break;
       case "fight":
         var re = fight(data.player_choice);
