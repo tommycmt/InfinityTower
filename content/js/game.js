@@ -46,23 +46,22 @@ class Game extends React.Component {
         var encoded = b64EncodeUnicode(JSON.stringify(obj));
         this.setState({fight_message: -1, message: 41});
         setTimeout(()=>{this.setState({fight_message: -1,message: 42, message_content: {message_save_data: encoded}}, function() {
-          this.setState({computing: false });
+          if (this.state.upgrading == false && this.state.predead == false)
+            this.setState({computing: false });
         });}, 1000);
         break;
       case "load_game":
         try {
           var encoded = b64DecodeUnicode(data.saved_data);
           var decoded = JSON.parse(encoded);
-          //this.setState({stage: decoded.stage, player: decoded.player, history: [],upgrading:false, predead: false}, function() {
-          //  this.init();
-          decoded.state.computing = false;
+          if (decoded.state.upgrading == false && decoded.state.predead == false)
+            decoded.state.computing = false;
           Object.keys(decoded.state).forEach((key)=> {
             this.setState({[key]: decoded.state[key]});
           });
         } catch(e) {
           alert("Corrupted Data");
         }
-        this.setState({computing: false });
         break;
       case "fight":
         var re = fight(data.player_choice);
