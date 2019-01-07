@@ -4,6 +4,15 @@ body {
   padding: 2% 4% 2% 4%;
 }
 
+button {
+  margin-top: 5px;
+}
+
+p {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
 #game_header {
   width: 100%;
   text-align: center;  
@@ -26,12 +35,46 @@ body {
 #game_message {
   clear: both;
   text-align: center;
-  min-height: 80px;
+  min-height: 100px;
+  overflow-wrap: break-word;
+}
+
+#game_message p {
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
+#game_message #message {
+  padding-top: 10px;
+}
+
+.left_control {
+  float:left;
+}
+
+.right_control {
+  float: right;
+}
+
+.game_state_button_group {
+  float:left;
+  margin-bottom: 5px;
+  display: inline-grid;
+}
+
+.fight_button_group{
+  float:right;
+  //display:inline-grid;
 }
 
 .fight_button {
   margin-left:5px;
   float:right;
+}
+
+.skill_button_group {
+  float:right;
+  display:inline-grid;
 }
 
 .skill_button {
@@ -42,7 +85,7 @@ body {
 
 .item_button_group {
   float:right;
-  display:inline;
+  display:inline-grid;
 }
 
 
@@ -53,7 +96,7 @@ body {
 
 .upgrade_button_group {
   float:right;
-  display:inline;
+  display:inline-grid;
 }
 
 .upgrade_button {
@@ -66,10 +109,6 @@ body {
 }
 
 @media only screen and (max-width: 600px) {
-  .item_button_group, .upgrade_button_group {
-    display:inline-grid;
-  }
-  
   p {
     font-size: 3.3vw;
   }

@@ -22,6 +22,17 @@ class Control extends React.Component {
     }
   }
   
+  saveGame() {
+    this.props.update("save_game", {});
+  }
+  
+  loadGame() {
+    var encoded = prompt("Paste the saved Data:");
+    if (encoded != "undefined" && encoded != null) {
+      this.props.update("load_game", {"saved_data": encoded});
+    }
+  }
+  
   fight(player_action) {
     this.props.update("fight", {"player_choice": player_action});
   }
@@ -97,19 +108,32 @@ class Control extends React.Component {
   render() {
     return (
       <div>
-        <button style={{"float":"left"}} onClick={this.newGame.bind(this)}>New Game</button>
-        {this.createFight_btn()}
-        <div style={{"clear":"both","height":"2px"}}></div>
-        {this.createSkill_btn()}
-        <div style={{"clear":"both","height":"2px"}}></div>
-        <div className="item_button_group">
-          {this.createItem_btn()}
+        <div className={"left_control"}>
+          <div className={"game_state_button_group"}>
+            <button className={"game_state_button"} onClick={this.newGame.bind(this)}>New Game</button>
+            <button className={"game_state_button"} onClick={this.saveGame.bind(this)}>Save Game</button>
+            <button className={"game_state_button"} onClick={this.loadGame.bind(this)}>Load Game</button>
+          </div>
         </div>
-        <div style={{"clear":"both","height":"2px"}}></div>
-        <div className="upgrade_button_group">
-          {this.createUpgrade_btn()}
+        <div className={"right_control"}>
+          <div className={"fight_button_group"}>
+            {this.createFight_btn()}
+          </div>
+          <div style={{"clear":"both","height":"2px"}}></div>
+          <div className={"skill_button_group"}>
+            {this.createSkill_btn()}
+          </div>
+          <div style={{"clear":"both","height":"2px"}}></div>
+          
+          <div className="item_button_group">
+            {this.createItem_btn()}
+          </div>
+          <div style={{"clear":"both","height":"2px"}}></div>
+          <div className="upgrade_button_group">
+            {this.createUpgrade_btn()}
+          </div>
+          <div style={{"clear":"both","height":"2px"}}></div>
         </div>
-        <div style={{"clear":"both","height":"2px"}}></div>
       </div>
     );
   }

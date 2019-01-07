@@ -55,6 +55,12 @@ class Message extends React.Component {
       case 34:
         message = "Reborn, cost " + this.props.message_content.message_price + " gold";
         break;
+      case 41:
+        message = "Saving data";
+        break;
+      case 42:
+        message = this.props.message_content.message_save_data;
+        break;
       default:
         message ="";
     }
