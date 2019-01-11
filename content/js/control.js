@@ -37,8 +37,8 @@ class Control extends React.Component {
     this.props.update("fight", {"player_choice": player_action});
   }
   
-  skill(skill_name, skill_lv) {
-    this.props.update("skill", {"skill_name": skill_name, "skill_lv": skill_lv});
+  skill(skill_usage, skill_name, skill_lv) {
+    this.props.update("skill", {"skill_usage": skill_usage, "skill_name": skill_name, "skill_lv": skill_lv});
   }
   
   upgrade_stat(statType) {
@@ -69,7 +69,7 @@ class Control extends React.Component {
       if (this.props.computing || this.props.player.mana < (skill_list[skill_name].cost * skill.lv) || skill.lv <= 0 || skill.cd != 0) {
         disable = true;
       }
-      btns.push(<button key={skill_name} className="skill_button" disabled={disable} onClick={this.skill.bind(this, skill_name, skill.lv)}>{skill_name} (lv: {skill.lv}, cd: {skill.cd})</button>);
+      btns.push(<button key={skill_name} className="skill_button" disabled={disable} onClick={this.skill.bind(this, skill_list[skill_name].usage, skill_name, skill.lv)}>{skill_name} (lv: {skill.lv}, cd: {skill.cd})</button>);
     }
     return btns;
   }

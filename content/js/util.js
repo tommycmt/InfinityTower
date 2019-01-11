@@ -13,7 +13,7 @@ function fight(player_action) {
     return {"result":result, "monster_choice": choices[monster_choice]};
 }
 
-function skill(player, skill_name, skill_lv) {
+function atk_skill(player, skill_usage, skill_name, skill_lv) {
     var type = skill_list[skill_name].type;
     var cost = skill_list[skill_name].cost * skill_lv;
     var multi = skill_list[skill_name].multi;
@@ -23,14 +23,24 @@ function skill(player, skill_name, skill_lv) {
     return {"skill_name": skill_name,"dam": dam, "cost": cost};
 }
 
+function buff_skill(player, skill_usage, skill_name, skill_lv) {
+    var type = skill_list[skill_name].type;
+    var cost = skill_list[skill_name].cost * skill_lv;
+    var multi = skill_list[skill_name].multi;
+    var turn = skill_list[skill_name].base_cd;
+    
+    var inc = parseInt(multi/5 * 3) * skill_lv + parseInt(player[type] / 4) * skill_lv;
+    return {"skill_name": skill_name, "inc": inc, "cost": cost, "buff_turn": turn};
+}
+
 function choosePlayer() {
   
   var cha = "";
   var name = "";
   for (var ch in player_list)
-    cha += (ch+1) + ". " + player_list[ch].name + "\n";
+    cha += (parseInt(ch)+1) + ". " + player_list[ch].name + "\n";
   while (true) {
-    name = prompt("Choose a character (Input the number): \n " + cha);
+    name = prompt("Choose a character (Input the number): \n" + cha);
     if (game_started || (name != "null" && name != null && player_list[parseInt(name)-1] != undefined)) {
       break;
       game_started = true;

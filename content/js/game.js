@@ -78,9 +78,17 @@ class Game extends React.Component {
         }
         break;
       case "skill":
-        var re = skill(this.state.player, data.skill_name, data.skill_lv);
-        this.setState({player_status: "atk", monster_status: "damaged"});
-        setTimeout(()=>{this.skill(re)}, 1000);
+        switch (data.skill_usage) {
+          case "attack":
+            var re = atk_skill(this.state.player, data.skill_usage, data.skill_name, data.skill_lv);
+            this.setState({player_status: "atk", monster_status: "damaged"});
+            setTimeout(()=>{this.skill(re)}, 1000);
+            break;
+          case "buff":
+            var re = buff_skill(this.state.player, data.skill_usage, data.skill_name, data.skill_lv);
+            setTimeout(()=>{this.buff(re)}, 500);
+            break;
+        }
         break;
       case "upgrade":
         if (data.type == "stat") {
@@ -181,7 +189,12 @@ class Game extends React.Component {
       new_skills[skill_name].cd = new_cd;
     }
     var new_mana = Math.min(this.state.player.mana + parseInt(this.state.player.inte/6), this.state.player.maxmana);
-    var new_player = Object.assign({}, this.state.player, {mana: new_mana, skills: new_skills});
+    var new_player;
+    var type =this.state.player["buff_type"];
+    if (this.state.player["buff_turn"] - 1 == 0)
+      new_player = Object.assign({}, this.state.player, {mana: new_mana, skills: new_skills, "buff_turn": this.state.player["buff_turn"] - 1, [type]: this.state.player[type] - this.state.player["temp_buff"]});
+    else
+      new_player = Object.assign({}, this.state.player, {mana: new_mana, skills: new_skills, "buff_turn": this.state.player["buff_turn"] - 1});
     this.setState({player: new_player});    
     this.after_fight();
   }
@@ -209,7 +222,18 @@ class Game extends React.Component {
     this.setState({player: new_player, monster: new_monster, player_status: "normal", monster_status: "normal"});
     this.setState({fight_message: 1, message_content: {message_atk: "Player", message_crit: multi, message_method: data.skill_name, message_dam: dam}});
     this.after_fight();
-    
+  }
+  
+  buff(data) {
+    var new_mana = this.state.player.mana - data.cost;
+    var new_cd = skill_list[data.skill_name].base_cd;
+    var new_skills = Object.assign({}, this.state.player.skills);
+    new_skills[data.skill_name].cd = new_cd;
+    var type = skill_list[data.skill_name].type;
+    var new_player = Object.assign({}, this.state.player, {mana: new_mana, skills: new_skills, [type]: this.state.player[type] + data.inc, "buff_type": type, "buff_turn": data["buff_turn"], "temp_buff": data.inc});
+    this.setState({player: new_player, player_status: "normal", monster_status: "normal"});
+    this.setState({fight_message: 11, message_content: {message_buffer: "Player", message_buffType: type, message_skill: data.skill_name, message_inc: data.inc}});
+    this.after_fight();
   }
   
   after_fight() {

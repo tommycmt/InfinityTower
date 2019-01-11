@@ -24,6 +24,9 @@ class Message extends React.Component {
       case 2:
         fight_message = "Draw";
         break;
+      case 11:
+        fight_message = this.props.message_content.message_buffer + " used " + this.props.message_content.message_skill + ", increased " + this.props.message_content.message_inc.toFixed(0) + " " + this.state.upgrade[this.props.message_content.message_buffType];
+        break;
       default:
         fight_message = "";
     }
