@@ -58,9 +58,9 @@ var player_list = [{id:0,
                     },
                     str:12, 
                     dex:20,
-                    inte:12,
+                    inte:1200,
                     gold: 30,
-                    exp: 0,
+                    exp: 10000,
                   }]
                             
 var monster_name_list = ["Tanglething", "Corpsefreak", "Abysssoul", "Fetidmonster", "The Ancient Mutt"]
