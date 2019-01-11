@@ -16,7 +16,7 @@ class Message extends React.Component {
     var message = "";
     switch (this.props.fight_message) {
       case 1:
-        fight_message = this.props.message_content.message_atk + " "+ this.props.message_content.message_method +" attacks, deal " + parseFloat(this.props.message_content.message_dam).toFixed(1) + " damages";
+        fight_message = this.props.message_content.message_atk + " "+ this.props.message_content.message_method.replace(new RegExp("_", 'g'), " ") +" attacks, deal " + parseFloat(this.props.message_content.message_dam).toFixed(1) + " damages";
         if (this.props.message_content.message_crit > 1) {
           fight_message += ", critical " + this.props.message_content.message_crit + "x";
         }
@@ -44,7 +44,7 @@ class Message extends React.Component {
         message = "Upgraded " + this.props.message_content.message_stat_point + " " + this.state.upgrade[this.props.message_content.message_stat_type];
         break;
       case 22:
-        message = "Upgraded " + this.props.message_content.message_skill_name + " to lv " + this.props.message_content.message_skill_lv;
+        message = "Upgraded " + this.props.message_content.message_skill_name.replace(new RegExp("_", 'g'), " ") + " to lv " + this.props.message_content.message_skill_lv;
         break;
       case 31:
         message = "Recover " + this.props.message_content.message_hp + " hp, cost " + this.props.message_content.message_price + " gold";

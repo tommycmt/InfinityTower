@@ -105,7 +105,8 @@ class Game extends React.Component {
             var new_cd = 0;
             new_skills[skill_name].cd = new_cd;
           }
-          var new_player = Object.assign({}, this.state.player, {gold: (this.state.player.gold - data.price), skills: new_skills});
+          var type =this.state.player["buff_type"];
+          var new_player = Object.assign({}, this.state.player, {gold: (this.state.player.gold - data.price), skills: new_skills, [type]: this.state.player[type] - this.state.player["temp_buff"], "buff_turn": 0, });
           this.setState({player: new_player, message:34, message_content:{message_price: 100}}, () =>
             {setTimeout(()=>{
               this.init();

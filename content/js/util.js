@@ -29,7 +29,7 @@ function buff_skill(player, skill_usage, skill_name, skill_lv) {
     var multi = skill_list[skill_name].multi;
     var turn = skill_list[skill_name].base_cd;
     
-    var inc = parseInt(multi/5 * 3) * skill_lv + parseInt(player[type] / 4) * skill_lv;
+    var inc = parseInt(multi/5 * 3) * skill_lv + parseInt(player[type] / 3) * skill_lv;
     return {"skill_name": skill_name, "inc": inc, "cost": cost, "buff_turn": turn};
 }
 
@@ -54,9 +54,15 @@ function genMonster(stage) {
   var name = monster_name_list[parseInt(Math.random()*monster_name_list.length)];
   var monster = monster_icon_list[parseInt(Math.random()*monster_icon_list.length)];
   monster.name = name;
-  monster.str = 10 + parseInt(stage/5) * 4 + parseInt((Math.random() * 0.5 + 1) * stage);
-  monster.dex = 10 + parseInt(stage/5) * 4 + parseInt((Math.random() * 0.5 + 1)  * stage);
-  monster.inte = 10 + parseInt(stage/5) * 4 + parseInt((Math.random() * 0.5 + 1) * stage);
+  if (stage < 50) {
+    monster.str = 10 + parseInt(stage/5) * 4 + parseInt((Math.random() * 0.5 + 1) * stage);
+    monster.dex = 10 + parseInt(stage/5) * 4 + parseInt((Math.random() * 0.5 + 1)  * stage);
+    monster.inte = 10 + parseInt(stage/5) * 4 + parseInt((Math.random() * 0.5 + 1) * stage);
+  } else {
+    monster.str = 10 + parseInt(stage/5) * 4 + parseInt((Math.random() * stage/100 + 1) * stage);
+    monster.dex = 10 + parseInt(stage/5) * 4 + parseInt((Math.random() * stage/100 + 1)  * stage);
+    monster.inte = 10 + parseInt(stage/5) * 4 + parseInt((Math.random() * stage/100 + 1) * stage);
+  }
   return monster;
 }
 

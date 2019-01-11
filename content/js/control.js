@@ -69,7 +69,7 @@ class Control extends React.Component {
       if (this.props.computing || this.props.player.mana < (skill_list[skill_name].cost * skill.lv) || skill.lv <= 0 || skill.cd != 0) {
         disable = true;
       }
-      btns.push(<button key={skill_name} className="skill_button" disabled={disable} onClick={this.skill.bind(this, skill_list[skill_name].usage, skill_name, skill.lv)}>{skill_name} (lv: {skill.lv}, cd: {skill.cd})</button>);
+      btns.push(<button key={skill_name} className="skill_button" disabled={disable} onClick={this.skill.bind(this, skill_list[skill_name].usage, skill_name, skill.lv)}>{skill_name.replace(new RegExp("_", 'g'), " ")} (lv: {skill.lv}, cd: {skill.cd})</button>);
     }
     return btns;
   }
@@ -96,7 +96,7 @@ class Control extends React.Component {
       for (var skill_name in this.props.player.skills) {
         var skill = this.props.player.skills[skill_name];
         if (this.props.player.exp >= (skill.lv+skill_list[skill_name].base) * 50) {
-          var display_name = skill_name + " (lv: " + skill.lv + " -> " + (skill.lv+1) + ")";
+          var display_name = skill_name.replace(new RegExp("_", 'g'), " ") + " (lv: " + skill.lv + " -> " + (skill.lv+1) + ")";
           btns.push(<button key={"upgrade_"+skill_name} className="upgrade_button" onClick={this.upgrade_skill.bind(this, skill_name, (skill.lv+skill_list[skill_name].base) * 50)}>{display_name}</button>);
         }
       }
