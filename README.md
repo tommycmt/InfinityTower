@@ -6,7 +6,7 @@ This is a practising application for myself. Features of this application will b
 
 This is a simple front-end game.
 This application is mainly using ReactJS.
-The React may not be using in best/good practise and probably violating some principles of React.
+The React is not using in best/good practise and probably is violating some principles of React.
 It is not recommended to follow.
 
 ### Prerequisites
