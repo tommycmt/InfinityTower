@@ -1,4 +1,4 @@
-# Simple-Python-GUI
+# InfinityTower
 
 This is a practising application for myself. Features of this application will be added without any milestone schedule.
 
