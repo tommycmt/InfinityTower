@@ -27,7 +27,7 @@ Choose a character by entering the number.
 
 ## License
 
-This project is licensed under the Apache License, Version 2.0 - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the Apache License, Version 2.0 - see the [LICENSE.md](https://github.com/tommycmt/InfinityTower/blob/master/LICENSE) file for details
 
 
 ## Acknowledgement
